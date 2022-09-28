@@ -1,0 +1,20 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres-kampus
+    user: postgres
+    environment:
+      POSTGRES_DB: "kampus"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "123"
+    ports:
+      - "5432:5432"
+  app:
+    build: .
+    container_name: springboot-kampus
+    image: springboot-kampus
+    ports:
+      - "9090:9090"
+    depends_on:
+      - postgres

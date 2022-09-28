@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: kampus-company
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: 123
+    url: jdbc:postgresql://localhost:5432/kampus
+#    username: ${POSTGRES_USER:postgres}
+#    password: ${POSTGRES_PASSWORD:123}
+#    url: jdbc:postgresql://${DB_HOSTNAME:localhost}:${DB_PORT:5432}/${POSTGRES_DB:kampus}
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL94Dialect
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    database: postgresql
+
+server:
+  port: 9090
+  servlet:
+    context-path: /v1
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui-custom.html
+
+logging:
+  level:
+    ROOT: INFO
+    liquibase: INFO
+    org.springframework:
+      boot: INFO
+      web: INFO
