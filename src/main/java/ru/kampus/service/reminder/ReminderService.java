@@ -1,16 +1,22 @@
-package ru.kampus.service.impl;
+package ru.kampus.service.reminder;
 
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ru.kampus.dto.Reminder;
 import ru.kampus.entity.ReminderEntity;
+import ru.kampus.entity.UserEntity;
 import ru.kampus.mapper.ReminderMapper;
+import ru.kampus.mapper.UserMapper;
 import ru.kampus.repository.ReminderRepository;
-import ru.kampus.repository.specifications.ReminderSpecification;
+import ru.kampus.repository.UserRepository;
+import ru.kampus.security.AuthenctificationService;
 import ru.kampus.service.IReminderService;
+import ru.kampus.service.quartz.JobService;
+import ru.kampus.service.quartz.QuartzFactory;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -25,14 +31,29 @@ public class ReminderService implements IReminderService {
 
     ReminderRepository reminderRepository;
 
+    UserRepository userRepository;
+
     ReminderMapper reminderMapper;
+
+    UserMapper userMapper;
+
+    JobService jobService;
+
+    AuthenctificationService authenctificationService;
 
     @Override
     public Reminder create(Reminder reminder) {
+        String username = authenctificationService.getCurrentUsername();
+        UserEntity userEntity = userRepository.findByUsername(username);
+
         ReminderEntity reminderEntity = reminderMapper.modelToEntity(reminder);
+        reminderEntity.setOwner(userEntity);
         reminderEntity = reminderRepository.save(reminderEntity);
 
         reminder.setId(reminderEntity.getId());
+        reminder.setOwner(userMapper.entityToModel(userEntity));
+
+        jobService.createReminderJob(reminder);
         return reminder;
     }
 

@@ -23,12 +23,24 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    // Планировщик
+    implementation 'org.springframework.boot:spring-boot-starter-quartz'
+    // Мыло
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    //Бот
+    implementation 'org.telegram:telegrambots-spring-boot-starter:6.1.0'
+    //Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 //    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+    //Template
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    //Datasource
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    runtimeOnly 'org.postgresql:postgresql'
     implementation 'org.liquibase:liquibase-core'
     implementation 'org.mapstruct:mapstruct:1.5.2.Final'
     compileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

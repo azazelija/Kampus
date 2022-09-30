@@ -1,25 +1,42 @@
 spring:
   application:
     name: kampus-company
+#####  DATASOURCE SETTINGS
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml
   datasource:
     driver-class-name: org.postgresql.Driver
-    username: postgres
-    password: 123
-    url: jdbc:postgresql://localhost:5432/kampus
-#    username: ${POSTGRES_USER:postgres}
-#    password: ${POSTGRES_PASSWORD:123}
-#    url: jdbc:postgresql://${DB_HOSTNAME:localhost}:${DB_PORT:5432}/${POSTGRES_DB:kampus}
+      username: ${APP_DB_USER}
+      password: ${APP_DB_PASSWORD}
+      url: jdbc:postgresql://${APP_DB_HOSTNAME}:${APP_DB_PORT}/${APP_DB}
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQL94Dialect
     hibernate:
       ddl-auto: none
     show-sql: true
     database: postgresql
+#####  SECURITY SETTINGS
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://${KEYCLOAK_HOST}:${KEYCLOAK_PORT}/realms/kampus
+  mail:
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties.mail:
+        smtp:
+          auth: true
+          starttls.enable: true
+
+bot:
+  name: ${BOT_NAME}
+  token: ${BOT_TOKEN}
 
 server:
-  port: 9090
+  port: ${APP_PORT}
   servlet:
     context-path: /v1
 

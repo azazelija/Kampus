@@ -5,24 +5,24 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
-import java.sql.Date;
-import java.sql.Time;
+import java.util.List;
 
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Reminder {
+public class User {
 
     Long id;
 
-    String title;
+    String username;
 
-    String description;
+    String password;
 
-    Date remindDate;
+    String telegramId;
 
-    Time remindTime;
+    String email;
 
-    User owner;
+    Role role;
+
+    List<Reminder> reminders;
 }
-

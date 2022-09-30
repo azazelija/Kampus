@@ -1,20 +1,44 @@
 version: "3.9"
 services:
-  postgres:
+  app_db:
     image: postgres:latest
-    container_name: postgres-kampus
-    user: postgres
+    container_name: $APP_DB_CONTAINER_NAME
+    user: $APP_DB_USER
     environment:
-      POSTGRES_DB: "kampus"
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "123"
+      POSTGRES_DB: $APP_DB
+      POSTGRES_USER: $APP_DB_USER
+      POSTGRES_PASSWORD: $APP_DB_PASSWORD
     ports:
-      - "5432:5432"
+      - ${APP_DB_PORT}:5432
   app:
     build: .
-    container_name: springboot-kampus
+    container_name: $APP_CONTAINER_NAME
     image: springboot-kampus
     ports:
-      - "9090:9090"
+      - ${APP_PORT}:9090
     depends_on:
-      - postgres
+      - app_db
+  keycloak:
+    container_name: $KEYCLOAK_CONTAINER_NAME
+    image: bitnami/keycloak
+    environment:
+      KEYCLOAK_ADMIN_USER: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KEYCLOAK_DATABASE_HOST: $KEYCLOAK_DB_CONTAINER_NAME
+      KEYCLOAK_DATABASE_PORT: $KEYCLOAK_DB_PORT
+      KEYCLOAK_DATABASE_NAME: $KEYCLOAK_DB
+      KEYCLOAK_DATABASE_USER: $KEYCLOAK_DB_USER
+      KEYCLOAK_DATABASE_PASSWORD: $KEYCLOAK_DB_PASSWORD
+    ports:
+      - ${KEYCLOAK_PORT}:8080
+    depends_on:
+      - keycloack_db
+  keycloack_db:
+    container_name: $KEYCLOAK_DB_CONTAINER_NAME
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: $KEYCLOAK_DB
+      POSTGRES_USER: $KEYCLOAK_DB_USER
+      POSTGRES_PASSWORD: $KEYCLOAK_DB_PASSWORD
+    ports:
+      - ${KEYCLOAK_DB_PORT}:5432

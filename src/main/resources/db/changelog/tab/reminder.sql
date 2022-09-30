@@ -9,11 +9,12 @@ create table if not exists reminder
 (
     id   bigserial
         constraint pk_reminder_id primary key,
-    title varchar(200) not null,
+    title        varchar(200)   not null,
     description  varchar(1000),
-    remind_date date,
-    remind_time time
-    );
+    remind_date  date           not null,
+    remind_time  time           not null,
+    user_id      bigint         not null
+);
 
 
 -- changeset ${user.name}:comment_on_columns_reminder.sql logicalFilePath:db/changelog/tab/reminder.sql runOnChange:true splitStatements:true

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.kampus.dto.Reminder;
 import ru.kampus.service.IReminderService;
 
-import java.time.OffsetDateTime;
 import java.util.List;
 
 @AllArgsConstructor

@@ -8,13 +8,12 @@ import lombok.experimental.FieldDefaults;
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
-import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "reminder")
-@FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
 @Setter
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ReminderEntity {
 
     @Id
@@ -32,4 +31,8 @@ public class ReminderEntity {
 
     @Column(name = "remind_time")
     Time remindTime;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    UserEntity owner;
 }
